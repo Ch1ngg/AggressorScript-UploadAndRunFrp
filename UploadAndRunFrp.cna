@@ -25,4 +25,4 @@ popup beacon_bottom {
             dialog_show($dialog);
         }
     }
-}
+} 
