@@ -7,7 +7,8 @@ AggressorScript-UploadAndRunFrp/上传frpc并且运行frpc
 ## Changlog
 > 2019年8月26日
 1. 修改CNA文件增加TLS加密参数
-
+> 2019年8月27日
+1. 新增账户密码参数
 ## PS
 建议 Sleep 不要调成 0s/Recommended Sleep Do not adjust to 0s
 
